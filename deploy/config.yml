@@ -1,0 +1,4 @@
+server:
+  enable_banner: false
+  port: 8080
+  metric_port: 8044

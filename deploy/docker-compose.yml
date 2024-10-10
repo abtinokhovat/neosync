@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:11.1
+    container_name: mariadb
+    restart: always
+    ports:
+      - '3306:3306'
+    networks:
+      - neosync-net
+    volumes:
+      - 'neosync_data:/bitnami/mariadb'
+    environment:
+      - MARIADB_USER=neosync
+      - MARIADB_PASSWORD=neosync_pass
+      - MARIADB_DATABASE=neosync_db
+      - MARIADB_ROOT_PASSWORD=neosyncRoo7t0lk2o20
+      - ALLOW_EMPTY_PASSWORD=no
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  neosync_data:
+
+networks:
+  neosync-net:
+    external: true
