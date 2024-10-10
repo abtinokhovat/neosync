@@ -4,8 +4,10 @@ import (
 	"neosync/delivery/http"
 	"neosync/internal/config"
 	"neosync/internal/dependency/adapter"
+	"neosync/internal/infra/db/mariadb/migrate"
 	"neosync/internal/logger"
 	"neosync/pkg/buildinfo"
+	"neosync/pkg/migrator"
 )
 
 func main() {
@@ -15,6 +17,10 @@ func main() {
 	cfg := config.C()
 	// logger service
 	logger.L()
+
+	// migrate database
+	mgr := migrator.New(cfg.Migrator, cfg.DB.String(), migrate.Provide())
+	mgr.Up()
 
 	_ = adapter.Build(cfg)
 
