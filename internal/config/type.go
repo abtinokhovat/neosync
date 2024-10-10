@@ -1,7 +1,11 @@
 package config
 
-import "neosync/delivery/http"
+import (
+	"neosync/adapter/mariadbadapter"
+	"neosync/delivery/http"
+)
 
 type Config struct {
-	Server http.Config `koanf:"server"`
+	Server http.Config           `koanf:"server"`
+	DB     mariadbadapter.Config `koanf:"db"`
 }

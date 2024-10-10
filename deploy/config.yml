@@ -2,3 +2,10 @@ server:
   enable_banner: false
   port: 8080
   metric_port: 8044
+
+db:
+  username: neosync
+  password: neosync_pass
+  db_name: neosync_db
+  host: localhost
+  port: 3306
