@@ -1,8 +1,13 @@
 package main
 
-import "neosync/internal/config"
+import (
+	"neosync/internal/config"
+	"neosync/internal/logger"
+)
 
 func main() {
-	// init config module
+	// config service
 	config.C()
+	// logger service
+	logger.L()
 }
