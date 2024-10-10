@@ -1,13 +1,13 @@
 package config
 
 import (
-	"neosync/adapter/mariadbadapter"
+	"neosync/adapter/mariadb"
 	"neosync/delivery/http"
 	"neosync/pkg/migrator"
 )
 
 type Config struct {
-	Server   http.Config           `koanf:"server"`
-	DB       mariadbadapter.Config `koanf:"db"`
-	Migrator migrator.Config       `koanf:"migrator"`
+	Server   http.Config     `koanf:"server"`
+	DB       mariadb.Config  `koanf:"db"`
+	Migrator migrator.Config `koanf:"migrator"`
 }

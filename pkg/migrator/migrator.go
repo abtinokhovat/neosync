@@ -9,7 +9,7 @@ import (
 )
 
 type Config struct {
-	Apply bool
+	Apply bool `koanf:"apply"`
 }
 
 type Migrator struct {

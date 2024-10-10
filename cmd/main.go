@@ -1,9 +1,9 @@
 package main
 
 import (
+	"neosync/adapter"
 	"neosync/delivery/http"
 	"neosync/internal/config"
-	"neosync/internal/dependency/adapter"
 	"neosync/internal/infra/db/mariadb/migrate"
 	"neosync/internal/logger"
 	"neosync/pkg/buildinfo"

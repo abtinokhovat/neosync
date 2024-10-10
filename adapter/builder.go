@@ -1,16 +1,16 @@
 package adapter
 
 import (
-	"neosync/adapter/mariadbadapter"
+	"neosync/adapter/mariadb"
 	"neosync/internal/config"
 )
 
 type Adapters struct {
-	MariaDB *mariadbadapter.DB
+	MariaDB *mariadb.DB
 }
 
 func Build(cfg *config.Config) *Adapters {
 	return &Adapters{
-		MariaDB: mariadbadapter.New(cfg.DB),
+		MariaDB: mariadb.New(cfg.DB),
 	}
 }
