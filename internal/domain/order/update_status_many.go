@@ -32,7 +32,7 @@ func (s Service) UpdateStatusMany(ctx context.Context, req UpdateStatusManyReque
 		}
 
 		// the order status was changed and should be updated here
-		rErr := s.repo.UpdateStatus(ctx, order.ID, Status(providerOrderStatus.Status))
+		rErr := s.repo.UpdateStatusAndLogChange(ctx, order.ID, Status(providerOrderStatus.Status))
 		if rErr != nil {
 			// retry policy here
 		}

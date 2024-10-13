@@ -2,7 +2,7 @@ package main
 
 import (
 	"neosync/internal/config"
-	"neosync/internal/domain/cutomer"
+	"neosync/internal/domain/customer"
 	"neosync/internal/domain/notifer"
 	"neosync/internal/domain/order"
 	"neosync/internal/domain/provider"
@@ -17,9 +17,9 @@ func main() {
 	logger.L()
 
 	adapters := adapter.Build(cfg)
-	databases := mariadb.Builder(adapters.MariaDB)
+	databases := mariadb.Builder(adapters.MariaDB, adapters.Gorm)
 
-	customerService := cutomer.NewService()
+	customerService := customer.NewService(databases.Customer)
 	notifierService := notifer.NewService(customerService)
 	orderService := order.NewService(databases.Order, notifierService)
 	providerService := provider.NewService(databases.Provider, adapters.OperationProviders)

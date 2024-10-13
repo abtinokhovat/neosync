@@ -3,7 +3,7 @@ package order
 import "context"
 
 type Repository interface {
-	UpdateStatus(ctx context.Context, id uint, status Status) error // UpdateManyStatuses(ctx context.Context, req []map[uint]Status) error
+	UpdateStatusAndLogChange(ctx context.Context, orderID uint, status Status) error
 	GetPendingOrders(ctx context.Context) ([]Order, error)
 }
 
