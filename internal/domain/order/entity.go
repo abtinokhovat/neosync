@@ -6,12 +6,13 @@ import (
 
 // Order represents a customer's order
 type Order struct {
-	ID         uint
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	CustomerID uint
-	ProviderID uint
-	Status     Status
+	ID           uint
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	Status       Status
+	TrackingCode string // tracking code can vary with different providers
+	CustomerID   uint
+	ProviderID   uint
 }
 
 // Status represents the status of an order

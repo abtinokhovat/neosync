@@ -13,6 +13,10 @@ type DB struct {
 	db     *sql.DB
 }
 
+type Scanner interface {
+	Scan(dest ...interface{}) error
+}
+
 type Config struct {
 	Username string `koanf:"username"`
 	Password string `koanf:"password"`
