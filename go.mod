@@ -9,6 +9,7 @@ require (
 	github.com/knadh/koanf/v2 v2.1.1
 	github.com/labstack/echo-contrib v0.17.1
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/rubenv/sql-migrate v1.7.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
