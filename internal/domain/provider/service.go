@@ -3,19 +3,24 @@ package provider
 import (
 	"context"
 	"errors"
-	"neosync/internal/domain/order"
+	"time"
 )
 
 var (
 	ErrMsgWrongProviderNotFound = errors.New("provider not found")
 )
 
+type AdapterResponseItem struct {
+	Status    uint
+	UpdatedAt time.Time
+}
+
 type Adapter interface {
 	// Name is a getter for a provider, so we could identify it and bing it on the correct requests
 	// I could have identified by their ids in db but this may change, so I chose to identify them by their name
 	Name() string
 	// GetAll fetch all the orders from the providers by their status and tracking number
-	GetAll(ctx context.Context) (map[string]order.Status, error)
+	GetAll(ctx context.Context) (map[string]AdapterResponseItem, error)
 }
 
 type Repository interface {

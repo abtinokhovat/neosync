@@ -2,10 +2,11 @@ package order
 
 import (
 	"context"
+	"neosync/internal/domain/provider"
 )
 
 type UpdateStatusManyRequest struct {
-	TrackingStatusMapping map[string]Status
+	TrackingStatusMapping map[string]provider.AdapterResponseItem
 }
 
 func (s Service) UpdateStatusMany(ctx context.Context, req UpdateStatusManyRequest) error {
@@ -23,12 +24,12 @@ func (s Service) UpdateStatusMany(ctx context.Context, req UpdateStatusManyReque
 		}
 
 		// if the providers had the order but the status did not change from the last check
-		if providerOrderStatus == order.Status {
+		if Status(providerOrderStatus.Status) == order.Status {
 			continue
 		}
 
 		// the order status was changed and should be updated here
-		rErr := s.repo.UpdateStatus(ctx, order.ID, providerOrderStatus)
+		rErr := s.repo.UpdateStatus(ctx, order.ID, Status(providerOrderStatus.Status))
 		if rErr != nil {
 			// retry policy here
 		}

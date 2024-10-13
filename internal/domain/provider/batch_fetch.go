@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 	"maps"
-	"neosync/internal/domain/order"
 	"neosync/internal/logger"
+	"neosync/pkg/richerror"
 )
 
 type GetAllRequest struct {
@@ -13,16 +13,22 @@ type GetAllRequest struct {
 }
 
 type GetAllResponse struct {
-	Mapping map[string]order.Status
+	Mapping map[string]AdapterResponseItem
 }
 
 // BatchFetchAll is function to fetch data from all requested providers
 func (s Service) BatchFetchAll(ctx context.Context, req GetAllRequest) (GetAllResponse, error) {
+	const op = "provider.BatchFetchAll"
+
+	if req.ProviderIDs == nil || len(req.ProviderIDs) == 0 {
+		return GetAllResponse{}, richerror.New("no provider id provided")
+	}
+
 	// fetching order statuses from all providers
-	trackingCodeStatusMap := make(map[string]order.Status)
+	trackingCodeStatusMap := make(map[string]AdapterResponseItem)
 
 	// getting all providers to search on it by their names
-	providers, err := s.repo.GetAll(ctx)
+	providers, err := s.GetAll(ctx)
 	if err != nil {
 		return GetAllResponse{}, err
 	}
