@@ -2,6 +2,8 @@ package main
 
 import (
 	"neosync/internal/config"
+	"neosync/internal/domain/cutomer"
+	"neosync/internal/domain/notifer"
 	"neosync/internal/domain/order"
 	"neosync/internal/domain/provider"
 	"neosync/internal/infra/adapter"
@@ -17,7 +19,9 @@ func main() {
 	adapters := adapter.Build(cfg)
 	databases := mariadb.Builder(adapters.MariaDB)
 
-	orderService := order.NewService(databases.Order)
+	customerService := cutomer.NewService()
+	notifierService := notifer.NewService(customerService)
+	orderService := order.NewService(databases.Order, notifierService)
 	providerService := provider.NewService(databases.Provider, adapters.OperationProviders)
 
 	// create the updater and start the cron job

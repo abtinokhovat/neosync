@@ -7,10 +7,15 @@ type Repository interface {
 	GetPendingOrders(ctx context.Context) ([]Order, error)
 }
 
-type Service struct {
-	repo Repository
+type Notifier interface {
+	SendNotification(ctx context.Context, message string, userID uint) error
 }
 
-func NewService(repo Repository) *Service {
-	return &Service{repo}
+type Service struct {
+	repo     Repository
+	notifier Notifier
+}
+
+func NewService(repo Repository, notifier Notifier) *Service {
+	return &Service{repo, notifier}
 }

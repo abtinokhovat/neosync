@@ -1,7 +1,6 @@
 package main
 
 import (
-	"neosync/adapter"
 	"neosync/delivery/http"
 	"neosync/internal/config"
 	"neosync/internal/infra/db/mariadb/migrate"
@@ -22,7 +21,11 @@ func main() {
 	mgr := migrator.New(cfg.Migrator, cfg.DB.String(), migrate.Provide())
 	mgr.Up()
 
-	_ = adapter.Build(cfg)
+	//adapters := adapter.Build(cfg)
+	//dbs := mariadb.Builder(adapters.MariaDB)
+	//
+	////_ = order.NewService(databases.Order)
+	//pv := provider.NewService(dbs.Provider, adapters.OperationProviders)
 
 	server := http.NewServer(cfg.Server, nil)
 	server.Start()
