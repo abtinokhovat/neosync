@@ -6,6 +6,7 @@ import (
 	"maps"
 	"neosync/internal/logger"
 	"neosync/pkg/richerror"
+	"sync"
 )
 
 type GetAllRequest struct {
@@ -35,16 +36,24 @@ func (s Service) BatchFetchAll(ctx context.Context, req GetAllRequest) (GetAllRe
 
 	adapters := filterAdapters(req.ProviderIDs, s.adapters, providers)
 
-	// TODO: make this concurrent
+	wg := sync.WaitGroup{}
+	mu := sync.Mutex{}
 	for _, adapter := range adapters {
-		codes, pErr := adapter.GetAll(ctx)
-		if pErr != nil {
-			// retry policy here
-		}
+		wg.Add(1)
+		go func(adapter Adapter) {
+			defer wg.Done()
+			codes, pErr := adapter.GetAll(ctx)
+			if pErr != nil {
+				// retry policy here
+			}
 
-		// merge maps
-		maps.Copy(trackingCodeStatusMap, codes)
+			// merge maps
+			mu.Lock()
+			maps.Copy(trackingCodeStatusMap, codes)
+			mu.Unlock()
+		}(adapter)
 	}
+	wg.Wait()
 
 	return GetAllResponse{Mapping: trackingCodeStatusMap}, nil
 }
