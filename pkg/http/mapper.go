@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+func Ok(c echo.Context, res any) error {
+	return c.JSON(http.StatusOK, res)
+}
+
 func Error(err error) *echo.HTTPError {
 	msg, code := mapError(err)
 	return echo.NewHTTPError(code, msg)
