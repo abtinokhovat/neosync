@@ -4,6 +4,7 @@ import (
 	"neosync/internal/config"
 	"neosync/internal/domain/provider"
 	"neosync/internal/infra/adapter/mariadb"
+	"neosync/internal/infra/adapter/providermock1"
 )
 
 type Adapters struct {
@@ -12,8 +13,12 @@ type Adapters struct {
 }
 
 func Build(cfg *config.Config) *Adapters {
+	mockAdapter1 := providermock1.New()
+
 	return &Adapters{
-		MariaDB:            mariadb.New(cfg.DB),
-		OperationProviders: map[string]provider.Adapter{},
+		MariaDB: mariadb.New(cfg.DB),
+		OperationProviders: map[string]provider.Adapter{
+			mockAdapter1.Name(): mockAdapter1,
+		},
 	}
 }
